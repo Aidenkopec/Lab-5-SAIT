@@ -20,38 +20,52 @@ class DeleteList extends Component {
             })
             .catch(error => {
                 console.log(error)
-                this.setState({errorMessage: 'ERROR'})
+                this.setState({error: 'ERROR'})
+            })
+    }
+
+    deleteRow(id, element) {
+        axios.delete(`https://jsonplaceholder.typicode.com/photos/${id}`)
+            .then(() => {
+                this.setState({pics: this.state.pics.filter(picture => picture.id !== id)})
             })
     }
 
     render() {
-        const {pics, errorMessage} = this.state
-
+        const {pics, error} = this.state
         return (
-
             <div>
-                <h1>Pictures</h1>
-                <table>
-                    {/*<tr>*/}
-                    <th>ID</th>
-                    <th>Title</th>
+                <h1>Lists Of Pics:</h1>
+                {pics.length ?
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Thumbnail</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                    <tr>
-                        {
-                            pics.length ? pics.map(post => <tr key={(post.id)}> {post.id} </tr>) : null
-                        }
-
-                    </tr>
-                    <tr>
-                        {
-                            pics.length ? pics.map(post => <td key={(post.id)}> {post.title} </td>) : null
-                        }
-
-                    </tr>
-                </table>
+                        {pics.map(pictures => (
+                            <tr key={pictures.id}>
+                                <td>{pictures.id}</td>
+                                <td>{pictures.title}</td>
+                                <td><img src={pictures.thumbnailUrl}/></td>
+                                <td>
+                                    <button className="deleteButton"
+                                            onClick={element => this.deleteRow(pictures.id, element)}>Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table> :
+                    <div>{error}</div>
+                }
             </div>
-
-        );
+        )
     }
 }
 

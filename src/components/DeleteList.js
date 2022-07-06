@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from "axios";
 
+
 class DeleteList extends Component {
     constructor(props) {
         super(props);
@@ -20,11 +21,11 @@ class DeleteList extends Component {
             })
             .catch(error => {
                 console.log(error)
-                this.setState({error: 'ERROR'})
+                this.setState({error: 'ERROR SOMETHING WENT WRONG'})
             })
     }
 
-    deleteRow(id, element) {
+    deleteRow(id) {
         axios.delete(`https://jsonplaceholder.typicode.com/photos/${id}`)
             .then(() => {
                 this.setState({pics: this.state.pics.filter(picture => picture.id !== id)})
@@ -35,7 +36,7 @@ class DeleteList extends Component {
         const {pics, error} = this.state
         return (
             <div>
-                <h1>Lists Of Pics:</h1>
+                <h1>Lists Of Albums:</h1>
                 {pics.length ?
                     <table>
                         <thead>
@@ -54,7 +55,7 @@ class DeleteList extends Component {
                                 <td>{pictures.title}</td>
                                 <td><img src={pictures.thumbnailUrl}/></td>
                                 <td>
-                                    <button className="deleteButton"
+                                    <button className="delete"
                                             onClick={element => this.deleteRow(pictures.id, element)}>Delete
                                     </button>
                                 </td>

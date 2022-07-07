@@ -36,7 +36,7 @@ class DeleteList extends Component {
         const {pics, error} = this.state
         return (
             <div>
-                <h1>Lists Of Albums:</h1>
+                <h2>Lists Of Albums:</h2>
                 {pics.length ?
                     <table>
                         <thead>
